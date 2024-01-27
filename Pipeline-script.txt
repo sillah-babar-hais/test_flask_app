@@ -1,15 +1,15 @@
 def img
 pipeline {
     environment {
-        registry = "kss7/python-jenkins" //To push an image to Docker Hub, you must first name your local image using your Docker Hub username and the repository name that you created through Docker Hub on the web.
-        registryCredential = 'docker-hub-login'
+        registry = "haisai" //To push an image to Docker Hub, you must first name your local image using your Docker Hub username and the repository name that you created through Docker Hub on the web.
+        registryCredential = 'docker-hub'
         dockerImage = ''
     }
     agent any
     stages {
         stage('checkout') {
             steps {
-                git 'https://github.com/kss7/SimpleFlaskUI.git'
+                git 'https://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@github.com/sillah-babar-hais/test_flask_app.git'
             }
         }
 
@@ -50,26 +50,11 @@ pipeline {
                 }
             }
         }
-
-        stage('Deploy to Test Server') {
-            steps {
-                script {
-                    def stopcontainer = "docker stop ${JOB_NAME}"
-                    def delcontName = "docker rm ${JOB_NAME}"
-                    def delimages = 'docker image prune -a --force'
-                    def drun = "docker run -d --name ${JOB_NAME} -p 5000:5000 ${img}"
-                    println "${drun}"
-                    sshagent(['docker-test']) {
-                        sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no docker@192.168.1.16 ${stopcontainer} "
-                        sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no docker@192.168.1.16 ${delcontName}"
-                        sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no docker@192.168.1.16 ${delimages}"
-
-                    // some block
-                        sh "ssh -o StrictHostKeyChecking=no docker@192.168.1.16 ${drun}"
-                    }
-                }
-            }
+        }
         }
 
 
     }
+
+
+}
