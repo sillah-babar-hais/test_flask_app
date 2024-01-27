@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-                git 'https://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@github.com/sillah-babar-hais/test_flask_app.git'
+                git 'https://github.com/sillah-babar-hais/test_flask_app.git'
             }
         }
 
