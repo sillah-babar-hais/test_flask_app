@@ -15,6 +15,7 @@ def hello_name(name):
    count += 1
    # Overwrite the count
    f = open("count.txt", "w")
+   print(count)
    f.write(str(count))
    f.close()
 
